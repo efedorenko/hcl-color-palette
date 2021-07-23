@@ -1,0 +1,80 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Menlo, monospace;
+    font-size: 12px;
+}
+
+$cell-width: 90px;
+$cell-height: 80px;
+
+input[type="text"] {
+    font: 10px Menlo, monospace;
+}
+
+.palette {
+    margin: 0 0 1em #{-1 * ($cell-width + 20px)};
+    border-collapse: collapse;
+    // border: 1px solid #EEE;
+    font-size: 10px;
+    color: rgba(#000, .35);
+
+    th,
+    td {
+        width: $cell-width;
+        height: $cell-height;
+        padding: 10px;
+        // border: 1px solid #EEE;
+        font-weight: normal;
+        transition: height .2s;
+    }
+    tbody th {
+        text-align: left;
+    }
+    tbody td {
+        // color: rgba(#000, .4);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        // text-align: center;
+    }
+    tbody td[data-l="600"],
+    tbody td[data-l="700"],
+    tbody td[data-l="800"],
+    tbody td[data-l="900"],
+    tbody td[data-l="950"] {
+        color: rgba(#FFF, .225)
+    }
+/*
+    tr:hover th,
+    tr:hover td {
+        height: 200px;
+    }
+*/
+}
+
+// Extras
+
+.extras {
+    width: ($cell-width + 20px) * 8;
+}
+
+// Lightness chart
+
+.lightness-chart {
+    position: relative;
+    width: 400px;
+    height: 200px;
+    margin: 1.5em 0;
+    background-color: #F9F9F9;
+
+    &_dot {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 3px;
+        background-color: #000;
+    }
+}
