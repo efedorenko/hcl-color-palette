@@ -2,7 +2,7 @@ import { baseColors, lightnessSteps } from './index';
 
 const table = document.querySelector('.palette');
 
-export function generateTableHead() {
+function generateTableHead() {
     let columns = baseColors.map(color => `
         <th>
             ${color.name}<br>
@@ -20,7 +20,7 @@ export function generateTableHead() {
         </tr>
     `;
 }
-export function generateTableBody() {
+function generateTableBody() {
     let rows = Object.keys(lightnessSteps).map(step => {
         let columns = baseColors.map(color => `<td data-l="${step}" data-color="${color.name}"></td>`);
 
@@ -37,4 +37,23 @@ export function generateTableBody() {
 
     table.querySelector('tbody').innerHTML = rows.join('');
 }
+function generateTableFoot() {
+    let columns = baseColors.map(color => `
+        <th>
+            H: <input type="text" size="3" value="0" data-name="${color.name}" class="js-change-scale-hue">
+        </th>
+    `);
 
+    table.querySelector('tfoot').innerHTML = `
+        <tr>
+            <th></th>
+            ${columns.join('')}
+        </tr>
+    `;
+}
+
+export function generateTable() {
+    generateTableHead();
+    generateTableBody();
+    generateTableFoot();
+}

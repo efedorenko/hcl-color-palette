@@ -1,5 +1,5 @@
 import chroma from "chroma-js";
-import {generateTableHead, generateTableBody} from './generate-table'
+import {generateTable} from './generate-table'
 
 const roundTo100th = num => roundTo(num, 100);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
@@ -42,51 +42,57 @@ export const baseColors = [
     {
         name: 'red',
         color: '#C01C21',
-        isLab: true
+        isLab: true,
+        hueCorrection: 0
     },
     {
         name: 'orange',
         color: '#F29C24',
-        isLab: true
+        isLab: true,
+        hueCorrection: 0
     },
     {
         name: 'yellow',
         color: '#FFDE00',
-        isLab: true
+        isLab: true,
+        hueCorrection: 0
     },
     {
         name: 'lime',
         color: '#89BF1D',
-        isLab: false
+        isLab: false,
+        hueCorrection: 0
     },
     {
         name: 'mint',
         color: '#4FC47F',
-        isLab: false
+        isLab: false,
+        hueCorrection: 0
     },
     {
         name: 'blue',
         color: '#007DCC',
-        isLab: false
+        isLab: false,
+        hueCorrection: 0
     },
     {
         name: 'slate',
         color: '#79808D',
-        isLab: false
+        isLab: false,
+        hueCorrection: 0
     },
     {
         name: 'grey',
         color: '#808080',
-        isLab: false
+        isLab: false,
+        hueCorrection: 0
     }
 ];
 
 
 // Set up the scene
 
-generateScales();
-generateTableHead();
-generateTableBody();
+generateTable();
 generatePalette();
 generateLightnessChart();
 
@@ -98,6 +104,9 @@ document.addEventListener('change', event => {
     }
     if (target.classList.contains('js-change-base-color-model')) {
         changeBaseColorModel(target);
+    }
+    if (target.classList.contains('js-change-scale-hue')) {
+        changeScaleHue(target);
     }
     if (target.classList.contains('js-change-lightness')) {
         changeLightness(target);
@@ -114,22 +123,35 @@ document.addEventListener('change', event => {
 
 // Color manipulations
 
+function getColorFromScale(bColor, lightnessStep) {
+    const lightnessStepsTotal = Object.keys(lightnessSteps).length;
+    const lightnessIndex = Object.keys(lightnessSteps).indexOf(lightnessStep.toString());
+    const lightnessValue = lightnessSteps[lightnessStep] / 100;
+
+    const hueAdjustment = (bColor.hueCorrection / lightnessStepsTotal) * (lightnessIndex + 1);
+    console.log(`${lightnessStep}: ${lightnessIndex} (${hueAdjustment})`)
+    const color = bColor.scale(lightnessValue)
+    return chroma(color).set('lch.h', color.lch()[2] + hueAdjustment);
+}
+
 function generatePalette() {
+    generateScales();
     baseColors.forEach(function (bColor) {
         document.querySelectorAll(`[data-color="${bColor.name}"]`).forEach(function (swatch) {
             let lightnessStep = parseInt(swatch.dataset.l, 10);
-            let lightnessValue = lightnessSteps[lightnessStep] / 100;
-            let color = bColor.scale(lightnessValue);
+
+            let color = getColorFromScale(bColor, lightnessStep);
             let colorHex = color.hex();
-            let hue = Math.round(color.lch()[2]);
-            let chrome = Math.round(color.lch()[1]);
+            let lightness = roundTo100th(color.lch()[0]);
+            let chrome = roundTo100th(color.lch()[1]);
+            let hue = roundTo100th(color.lch()[2]);
             let contrast = roundTo100th(chroma.contrast(colorHex, bgColor));
             let contrastBadge = contrast >= 4.5 ? `✓ ${contrast}` : `<s>${contrast}</s>`;
         
             swatch.style.backgroundColor = colorHex;
             swatch.innerHTML = `
                 ${colorHex.toUpperCase()}<br>
-                L: ${roundTo100th(lightnessValue)}<br>
+                L: ${lightness}<br>
                 C: ${chrome}<br>
                 H: ${hue}<br>
                 ${contrastBadge}
@@ -160,7 +182,6 @@ function changeBaseColor(input) {
     _changeBaseColorObject(input.dataset.name, (i) => {
         console.log(`${baseColors[i].color} => ${input.value}`);
         baseColors[i].color = input.value;
-        generateScales();
         generatePalette();
     });
 }
@@ -169,7 +190,21 @@ function changeBaseColorModel(checkbox) {
     _changeBaseColorObject(checkbox.dataset.name, (i) => {
         console.log(`LAB: ${checkbox.checked}`);
         baseColors[i].isLab = checkbox.checked;
-        generateScales();
+        generatePalette();
+    });
+}
+
+function changeScaleHue(input) {
+    _changeBaseColorObject(input.dataset.name, (i) => {
+        const value = parseInt(input.value, 10);
+        if (value >= 360 || value <= -360) {
+            alert('Hue is out of supported range');
+            return;
+        }
+
+        baseColors[i].hueCorrection = input.value;
+        console.log(`Hue correction of ${input.dataset.name} set to ${value}.`)
+
         generatePalette();
     });
 }
