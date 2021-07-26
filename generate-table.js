@@ -1,9 +1,17 @@
-import { colorIds, lightnessSteps } from './index';
+import { baseColors, lightnessSteps } from './index';
 
 const table = document.querySelector('.palette');
 
 export function generateTableHead() {
-    let columns = colorIds.map(color => `<th>${color}</th>`);
+    let columns = baseColors.map(color => `
+        <th>
+            ${color.name}<br>
+            <input type="text" size="7" value="${color.color}" data-name="${color.name}" class="js-change-base-color"><br>
+            <label>
+                <input type="checkbox" ${color.isLab ? 'checked' : ''} data-name="${color.name}" class="js-change-base-color-model"> LAB
+            </label>
+        </th>
+    `);
 
     table.querySelector('thead').innerHTML = `
         <tr>
@@ -14,7 +22,7 @@ export function generateTableHead() {
 }
 export function generateTableBody() {
     let rows = Object.keys(lightnessSteps).map(step => {
-        let columns = colorIds.map(color => `<td data-l="${step}" data-color="${color}"></td>`);
+        let columns = baseColors.map(color => `<td data-l="${step}" data-color="${color.name}"></td>`);
 
         return `
             <tr>

@@ -5,17 +5,7 @@ const roundTo100th = num => roundTo(num, 100);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 
 let bgColor = '#FFFFFF';
-
-export const colorIds = [
-    'red',
-    'orange',
-    'yellow',
-    'lime',
-    'mint',
-    'blue',
-    'slate',
-    'grey'
-];
+let correctLightness = true;
 
 const Lbase = 49.5;
 const Lincrease = 1.17;
@@ -48,24 +38,53 @@ const lightnessSteps = {
 };
 */
 
-let correctLightness = true;
-const colorScales = () => {
-    const createScaleRange = color => ['black', color, 'white'];
-    const createScale = (color, model) => chroma.scale(createScaleRange(color)).mode(model ? model : 'rgb').correctLightness(correctLightness);
-    
-    return {
-        'red': createScale('#C01C21', 'lab'),
-        'orange': createScale('#F29C24', 'lab'),
-        'yellow': createScale('#FFDE00', 'lab'),
-        'lime': createScale('#89BF1D'),
-        'mint': createScale('#4FC47F'),
-        'blue': createScale('#007DCC'),
-        'slate': createScale('#79808D'),
-        'grey': createScale('#808080')
+export const baseColors = [
+    {
+        name: 'red',
+        color: '#C01C21',
+        isLab: true
+    },
+    {
+        name: 'orange',
+        color: '#F29C24',
+        isLab: true
+    },
+    {
+        name: 'yellow',
+        color: '#FFDE00',
+        isLab: true
+    },
+    {
+        name: 'lime',
+        color: '#89BF1D',
+        isLab: false
+    },
+    {
+        name: 'mint',
+        color: '#4FC47F',
+        isLab: false
+    },
+    {
+        name: 'blue',
+        color: '#007DCC',
+        isLab: false
+    },
+    {
+        name: 'slate',
+        color: '#79808D',
+        isLab: false
+    },
+    {
+        name: 'grey',
+        color: '#808080',
+        isLab: false
     }
-}
+];
 
 
+// Set up the scene
+
+generateScales();
 generateTableHead();
 generateTableBody();
 generatePalette();
@@ -74,6 +93,12 @@ generateLightnessChart();
 document.addEventListener('change', event => {
     let target = event.target;
 
+    if (target.classList.contains('js-change-base-color')) {
+        changeBaseColor(target);
+    }
+    if (target.classList.contains('js-change-base-color-model')) {
+        changeBaseColorModel(target);
+    }
     if (target.classList.contains('js-change-lightness')) {
         changeLightness(target);
     }
@@ -86,12 +111,15 @@ document.addEventListener('change', event => {
     }
 })
 
+
+// Color manipulations
+
 function generatePalette() {
-    colorIds.forEach(function (colorId) {
-        document.querySelectorAll(`[data-color="${colorId}"]`).forEach(function (swatch) {
+    baseColors.forEach(function (bColor) {
+        document.querySelectorAll(`[data-color="${bColor.name}"]`).forEach(function (swatch) {
             let lightnessStep = parseInt(swatch.dataset.l, 10);
             let lightnessValue = lightnessSteps[lightnessStep] / 100;
-            let color = colorScales()[colorId](lightnessValue);
+            let color = bColor.scale(lightnessValue);
             let colorHex = color.hex();
             let hue = Math.round(color.lch()[2]);
             let chrome = Math.round(color.lch()[1]);
@@ -108,6 +136,41 @@ function generatePalette() {
 
             `;
         });  
+    });
+}
+
+function generateScales () {
+    // Add scales to base colors
+    baseColors.forEach(bColor => {
+        bColor.scale = chroma.scale(['black', bColor.color, 'white']).mode(bColor.isLab ? 'lab' : 'rgb').correctLightness(correctLightness);
+    })
+}
+
+function _changeBaseColorObject(name, fn) {
+    baseColors.forEach(function(bColor, i) {
+        if (name === bColor.name) {
+            console.log(`Change base color ${baseColors[i].name}`);
+            fn(i);
+        }
+    })
+
+}
+
+function changeBaseColor(input) {
+    _changeBaseColorObject(input.dataset.name, (i) => {
+        console.log(`${baseColors[i].color} => ${input.value}`);
+        baseColors[i].color = input.value;
+        generateScales();
+        generatePalette();
+    });
+}
+
+function changeBaseColorModel(checkbox) {
+    _changeBaseColorObject(checkbox.dataset.name, (i) => {
+        console.log(`LAB: ${checkbox.checked}`);
+        baseColors[i].isLab = checkbox.checked;
+        generateScales();
+        generatePalette();
     });
 }
 
