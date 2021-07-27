@@ -43,9 +43,9 @@ export function generateTableBody() {
     table.querySelector('tbody').innerHTML = rows.join('');
 }
 export function generateTableFoot() {
-    let columns = baseColors.map(color => `
+    let columns = baseColors.map(bColor => `
         <th>
-            H: <input type="text" size="3" value="0" data-name="${color.name}" class="js-change-scale-hue">
+            H: <input type="text" size="3" value="${bColor.hueCorrection}" data-name="${bColor.name}" class="js-change-scale-hue">
         </th>
     `);
 

@@ -6,8 +6,7 @@
 <body>
 
     <table class="palette">
-        <thead>
-        </thead>
+        <thead></thead>
         <tbody>
 <!--
             <tr>
@@ -73,17 +72,37 @@
             </tr>
 -->
         </tbody>
-        <tfoot>
-
-        </tfoot>
+        <tfoot></tfoot>
     </table>
 
     <div class="extras">
-        <p><label><input type="checkbox" checked class="js-correct-lightness"> Correct lightness</label></p>
-        <p>Background color for contrast ratio: <input type="text" size="7" value="#FFFFFF" class="js-change-bg-color"></p>
+        <div class="extras_col">
+            <p><label><input type="checkbox" checked class="js-correct-lightness"> Correct lightness</label></p>
+            <p>Background color for contrast ratio: <input type="text" size="7" value="#FFFFFF" class="js-change-bg-color"></p>
 
-        <div class="lightness-chart"></div>
-        <p><strong>Lightness.</strong> X: steps, Y: values.</p>
+            <div class="lightness-chart"></div>
+            <p><strong>Lightness.</strong> X: steps, Y: values.</p>
+        </div>
+        <div class="extras_col">
+            <p>Existing colors used 10+ times:</p>
+            <ol class="colors-samples">
+                <li><span style="background-color: #007DCC;">#007DCC: 84</span> ~ blue 600</li>
+                <li><span style="background-color: #4FC47F;">#4FC47F: 78</span> = mint 400</li>
+                <li><span style="background-color: #BB0000;">#BB0000: 34</span></li>
+                <li><span style="background-color: #F35A3D;">#F35A3D: 30</span></li>
+                <li><span style="background-color: #FFDE00;">#FFDE00: 21</span> = yellow 200</li>
+                <li><span style="background-color: #665900;">#665900: 16</span> ~ yellow 700</li>
+                <li><span style="background-color: #E6735C;">#E6735C: 16</span></li>
+                <li><span style="background-color: #353942;">#353942: 15</span> ~ slate 800</li>
+                <li><span style="background-color: #005E99;">#005E99: 15</span> - blue 600</li>
+                <li><span style="background-color: #003F66;">#003F66: 13</span> ~ blue 700</li>
+                <li><span style="background-color: #CF4C4C;">#CF4C4C: 13</span></li>
+                <li><span style="background-color: #79808D;">#79808D: 13</span> ~ slate 600</li>
+                <li><span style="background-color: #79808F;">#79808F: 12</span> ~ slate 600</li>
+                <li><span style="background-color: #38A866;">#38A866: 10</span> ~ mint 500</li>
+                <li><span style="background-color: #75D19B;">#75D19B: 10</span> ~ mint 300</li>
+            </ol>
+        </div>
     </div>
 
 

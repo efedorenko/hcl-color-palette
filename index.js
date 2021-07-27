@@ -7,21 +7,21 @@ const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 let bgColor = '#FFFFFF';
 let correctLightness = true;
 
-const Lbase = 49.5;
+const Lbase = 49.8; // to match blue
 const Lincrease = 1.17;
-const Ldecrease = 0.77;
+const Ldecrease = 0.68;
 
 export const lightnessSteps = {
     50: 98,
-    100: roundTo100th(Lbase * Math.pow(Lincrease, 4)),
-    200: roundTo100th(Lbase * Math.pow(Lincrease, 3)),
-    300: roundTo100th(Lbase * Math.pow(Lincrease, 2)),
-    400: roundTo100th(Lbase * Lincrease),
-    500: Lbase,
-    600: roundTo100th(Lbase * Ldecrease),
-    700: roundTo100th(Lbase * Math.pow(Ldecrease, 2)),
-    800: roundTo100th(Lbase * Math.pow(Ldecrease, 3)),
-    900: roundTo100th(Lbase * Math.pow(Ldecrease, 4))
+    100: 93.3,
+    200: 88.6, // to match yellow
+    300: 79.9,
+    400: 71.2, // to match mint
+    500: 60.5,
+    600: Lbase, 
+    700: roundTo100th(Lbase * Ldecrease),
+    800: roundTo100th(Lbase * Math.pow(Ldecrease, 2)),
+    900: roundTo100th(Lbase * Math.pow(Ldecrease, 3))
 };
 /*
 const lightnessSteps = {

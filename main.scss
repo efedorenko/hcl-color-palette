@@ -56,8 +56,27 @@ input[type="text"] {
 // Extras
 
 .extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
     width: ($cell-width + 20px) * 8;
+
+    &_col {
+
+    }
 }
+
+.colors-samples {
+    li {
+        margin-bottom: .5em;
+    }
+    span {
+        display: inline-block;
+        padding: .2em;
+    }
+}
+
+
 
 // Lightness chart
 
