@@ -8,9 +8,9 @@ export function generateTableHead() {
         <th>
             ${bColor.name}<br>
             <input type="text" size="7" value="${bColor.color}" data-name="${bColor.name}" class="js-change-base-color"><br>
-            L: ${roundTo100th(chroma(bColor.color).get('lch.l'))}<br>
-            C: ${roundTo100th(chroma(bColor.color).get('lch.c'))}<br>
-            H: ${roundTo100th(chroma(bColor.color).get('lch.h'))}<br>
+            L: <input type="text" size="5" value="${roundTo100th(chroma(bColor.color).get('lch.l'))}" data-name="${bColor.name}" class="js-set-base-color-from-l"><br>
+            C: <input type="text" size="5" value="${roundTo100th(chroma(bColor.color).get('lch.c'))}" data-name="${bColor.name}" class="js-set-base-color-from-c"><br>
+            H: <input type="text" size="5" value="${roundTo100th(chroma(bColor.color).get('lch.h'))}" data-name="${bColor.name}" class="js-set-base-color-from-h"><br>
 
             <label>
                 <input type="checkbox" ${bColor.isLab ? 'checked' : ''} data-name="${bColor.name}" class="js-change-base-color-model"> LAB

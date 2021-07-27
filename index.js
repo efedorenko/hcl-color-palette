@@ -7,10 +7,6 @@ const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 let bgColor = '#FFFFFF';
 let correctLightness = true;
 
-const Lbase = 49.8; // to match blue
-const Lincrease = 1.17;
-const Ldecrease = 0.68;
-
 export const lightnessSteps = {
     50: 98,
     100: 93.3,
@@ -18,36 +14,22 @@ export const lightnessSteps = {
     300: 79.9,
     400: 71.2, // to match mint
     500: 60.5,
-    600: Lbase, 
-    700: roundTo100th(Lbase * Ldecrease),
-    800: roundTo100th(Lbase * Math.pow(Ldecrease, 2)),
-    900: roundTo100th(Lbase * Math.pow(Ldecrease, 3))
+    600: 49.8, // to match blue
+    700: 38.4,
+    800: 27.0,
+    900: 15.6
 };
-/*
-const lightnessSteps = {
-    50: 98,
-    100: 93,
-    200: 85,
-    300: 75,
-    400: 65,
-    500: 55,
-    600: 45,
-    700: 35,
-    800: 25,
-    900: 13
-};
-*/
 
 export const baseColors = [
     {
         name: 'red',
-        color: '#C01C21',
+        color: '#C21527',
         isLab: true,
         hueCorrection: 0
     },
     {
         name: 'orange',
-        color: '#F29C24',
+        color: '#F1903C',
         isLab: true,
         hueCorrection: 0
     },
@@ -108,9 +90,19 @@ document.addEventListener('change', event => {
     if (target.classList.contains('js-change-base-color')) {
         changeBaseColor(target);
     }
+    if (target.classList.contains('js-set-base-color-from-l')) {
+        setBaseColorFromL(target);
+    }
+    if (target.classList.contains('js-set-base-color-from-c')) {
+        setBaseColorFromC(target);
+    }
+    if (target.classList.contains('js-set-base-color-from-h')) {
+        setBaseColorFromH(target);
+    }
     if (target.classList.contains('js-change-base-color-model')) {
         changeBaseColorModel(target);
     }
+
     if (target.classList.contains('js-change-scale-hue')) {
         changeScaleHue(target);
     }
@@ -184,7 +176,6 @@ function _changeBaseColorObject(name, fn) {
             generatePalette();
         }
     })
-
 }
 
 function changeBaseColor(input) {
@@ -199,6 +190,37 @@ function changeBaseColorModel(checkbox) {
     _changeBaseColorObject(checkbox.dataset.name, (i) => {
         console.log(`LAB: ${checkbox.checked}`);
         baseColors[i].isLab = checkbox.checked;
+    });
+}
+
+function setBaseColorFromL(input) {
+    const lightness = input.value;
+    if (lightness < 0 || lightness > 150) {
+        alert('Lightness is out of range');
+        return;
+    }
+    _changeBaseColorObject(input.dataset.name, (i) => {
+        baseColors[i].color = chroma(baseColors[i].color).set('lch.l', lightness);
+    });
+}
+function setBaseColorFromC(input) {
+    const chrome = input.value;
+    if (chrome < 0 || chrome > 150) {
+        alert('Chromacity is out of range');
+        return;
+    }
+    _changeBaseColorObject(input.dataset.name, (i) => {
+        baseColors[i].color = chroma(baseColors[i].color).set('lch.c', chrome);
+    });
+}
+function setBaseColorFromH(input) {
+    const hue = input.value;
+    if (hue < 0 || hue > 360) {
+        alert('Hue is out of range');
+        return;
+    }
+    _changeBaseColorObject(input.dataset.name, (i) => {
+        baseColors[i].color = chroma(baseColors[i].color).set('lch.h', hue);
     });
 }
 
