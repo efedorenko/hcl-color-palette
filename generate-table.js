@@ -1,14 +1,19 @@
-import { baseColors, lightnessSteps } from './index';
+import chroma from "chroma-js";
+import { baseColors, lightnessSteps, roundTo100th } from './index';
 
 const table = document.querySelector('.palette');
 
-function generateTableHead() {
-    let columns = baseColors.map(color => `
+export function generateTableHead() {
+    let columns = baseColors.map(bColor => `
         <th>
-            ${color.name}<br>
-            <input type="text" size="7" value="${color.color}" data-name="${color.name}" class="js-change-base-color"><br>
+            ${bColor.name}<br>
+            <input type="text" size="7" value="${bColor.color}" data-name="${bColor.name}" class="js-change-base-color"><br>
+            L: ${roundTo100th(chroma(bColor.color).get('lch.l'))}<br>
+            C: ${roundTo100th(chroma(bColor.color).get('lch.c'))}<br>
+            H: ${roundTo100th(chroma(bColor.color).get('lch.h'))}<br>
+
             <label>
-                <input type="checkbox" ${color.isLab ? 'checked' : ''} data-name="${color.name}" class="js-change-base-color-model"> LAB
+                <input type="checkbox" ${bColor.isLab ? 'checked' : ''} data-name="${bColor.name}" class="js-change-base-color-model"> LAB
             </label>
         </th>
     `);
@@ -20,7 +25,7 @@ function generateTableHead() {
         </tr>
     `;
 }
-function generateTableBody() {
+export function generateTableBody() {
     let rows = Object.keys(lightnessSteps).map(step => {
         let columns = baseColors.map(color => `<td data-l="${step}" data-color="${color.name}"></td>`);
 
@@ -37,7 +42,7 @@ function generateTableBody() {
 
     table.querySelector('tbody').innerHTML = rows.join('');
 }
-function generateTableFoot() {
+export function generateTableFoot() {
     let columns = baseColors.map(color => `
         <th>
             H: <input type="text" size="3" value="0" data-name="${color.name}" class="js-change-scale-hue">
@@ -50,10 +55,4 @@ function generateTableFoot() {
             ${columns.join('')}
         </tr>
     `;
-}
-
-export function generateTable() {
-    generateTableHead();
-    generateTableBody();
-    generateTableFoot();
 }

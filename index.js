@@ -1,7 +1,7 @@
 import chroma from "chroma-js";
-import {generateTable} from './generate-table'
+import { generateTableHead, generateTableBody, generateTableFoot } from './generate-table'
 
-const roundTo100th = num => roundTo(num, 100);
+export const roundTo100th = num => roundTo(num, 100);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 
 let bgColor = '#FFFFFF';
@@ -92,7 +92,13 @@ export const baseColors = [
 
 // Set up the scene
 
-generateTable();
+generateTableHead();
+generateTableBody();
+generateTableFoot();
+
+
+// Set up colors
+
 generatePalette();
 generateLightnessChart();
 
@@ -173,6 +179,9 @@ function _changeBaseColorObject(name, fn) {
         if (name === bColor.name) {
             console.log(`Change base color ${baseColors[i].name}`);
             fn(i);
+
+            generateTableHead();
+            generatePalette();
         }
     })
 
@@ -182,7 +191,7 @@ function changeBaseColor(input) {
     _changeBaseColorObject(input.dataset.name, (i) => {
         console.log(`${baseColors[i].color} => ${input.value}`);
         baseColors[i].color = input.value;
-        generatePalette();
+
     });
 }
 
@@ -190,7 +199,6 @@ function changeBaseColorModel(checkbox) {
     _changeBaseColorObject(checkbox.dataset.name, (i) => {
         console.log(`LAB: ${checkbox.checked}`);
         baseColors[i].isLab = checkbox.checked;
-        generatePalette();
     });
 }
 
@@ -204,8 +212,6 @@ function changeScaleHue(input) {
 
         baseColors[i].hueCorrection = input.value;
         console.log(`Hue correction of ${input.dataset.name} set to ${value}.`)
-
-        generatePalette();
     });
 }
 
