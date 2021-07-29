@@ -3,6 +3,7 @@ import { generateTableHead, generateTableBody, generateTableFoot } from './gener
 import { matchPaletteToExistingColors } from "./match-colors";
 
 export const roundTo100th = num => roundTo(num, 100);
+export const roundTo10th = num => roundTo(num, 10);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 
 let bgColor = '#FFFFFF';
@@ -55,6 +56,12 @@ export const baseColors = [
     {
         name: 'blue',
         color: '#007DCC',
+        isLab: false,
+        hueCorrection: 0
+    },
+    {
+        name: 'purple',
+        color: '#9f84db', // '#B47CD4' is a better match
         isLab: false,
         hueCorrection: 0
     },
@@ -137,7 +144,18 @@ function getColorFromScale(bColor, lightnessStep) {
 
 function generatePalette() {
     // Reset palette before redefining
-    palette = [];
+    palette = [
+        {
+            color: '#FFF',
+            name: 'white',
+            lightnessStep: '0'
+        },
+        {
+            color: '#000',
+            name: 'black',
+            lightnessStep: '1000'
+        }
+    ];
 
     generateScales();
     baseColors.forEach(function (bColor) {

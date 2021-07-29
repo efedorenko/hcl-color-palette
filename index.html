@@ -75,21 +75,33 @@
         <tfoot></tfoot>
     </table>
 
-    <div class="extras">
-        <div class="extras_col">
-            <p><label><input type="checkbox" checked class="js-correct-lightness"> Correct lightness</label></p>
-            <p>Background color for contrast ratio: <input type="text" size="7" value="#FFFFFF" class="js-change-bg-color"></p>
+    <div class="wrap">
+        <div class="extras">
+            <div class="extras_col">
+                <p><label><input type="checkbox" checked class="js-correct-lightness"> Correct lightness</label></p>
+                <p>Background color for contrast ratio: <input type="text" size="7" value="#FFFFFF" class="js-change-bg-color"></p>
 
-            <div class="lightness-chart"></div>
-            <p><strong>Lightness.</strong> X: steps, Y: values.</p>
+                <div class="lightness-chart"></div>
+                <p><strong>Lightness.</strong> X: steps, Y: values.</p>
+            </div>
+            <div class="extras_col">
+                <div class="matching-stats"></div>
+            </div>
         </div>
-        <div class="extras_col">
-            <div class="matching-stats"></div>
-            <p>Existing color (usage) &rarr; new color (diff)</p>
-            <ol class="colors-samples"></ol>
-        </div>
+
+        <table class="colors-samples">
+            <thead>
+            <tr>
+                <td width="5%" align="right">Usage</td>
+                <td width="10%">Old color</td>
+                <td width="10%">New color</td>
+                <td align="center" colspan="2">Distance</td>
+                <td align="right">Codename</td>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-
 
 
     <script src="./index.js"></script>

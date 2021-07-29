@@ -1,10 +1,10 @@
 import chroma from "chroma-js";
 import * as pmColorsUsage from './pm-colors-usage.json'
-import {palette, roundTo100th} from "./index";
+import {palette, roundTo, roundTo10th} from "./index";
 
 let stats = {};
 const indicator = {
-    perfect: '✅ 👏👏👏',
+    perfect: '✅ 🎉',
     great: '✅',
     good: '👌',
     ok: 'ok',
@@ -12,7 +12,7 @@ const indicator = {
 }
 
 function listExistingColors() {
-    const list = document.querySelector('.colors-samples');
+    const list = document.querySelector('.colors-samples tbody');
     list.innerHTML = '';
 
     // Reset stats
@@ -49,7 +49,7 @@ function listExistingColors() {
         } else if (minDistance < 1) {
             distanceIndicator = indicator.great;
             stats.great++;
-        } else if (minDistance < 3) {
+        } else if (minDistance < 3.5) {
             distanceIndicator = indicator.good;
             stats.good++;
         } else if (minDistance > 20) {
@@ -60,17 +60,17 @@ function listExistingColors() {
             stats.ok++;
         }
 
-        let li = document.createElement('li');
-        li.innerHTML = `
-            <span style="background-color: ${color};">${color}</span>
-            (${pmColorsUsage[color]})
-            &rarr;
-            <span style="background-color: ${closestBaseColor.color};">${closestBaseColor.color}</span>
-            =
-            ${roundTo100th(minDistance)}
-            ${distanceIndicator}
+        let tr = document.createElement('tr');
+        let paddedDistance = roundTo10th(minDistance) % 1 === 0 ? roundTo10th(minDistance) + '.0' : roundTo10th(minDistance);
+        tr.innerHTML = `
+            <td align="right">${pmColorsUsage[color]}</td>
+            <td><span style="background-color: ${color};">${color}</span></td>
+            <td><span style="background-color: ${closestBaseColor.color};">${closestBaseColor.color}</span></td>
+            <td align="right">${paddedDistance}</td>
+            <td>${distanceIndicator}</td>
+            <td align="right">${closestBaseColor.name} ${closestBaseColor.lightnessStep}</td>
         `;
-        list.append(li);
+        list.append(tr);
     });
 }
 
