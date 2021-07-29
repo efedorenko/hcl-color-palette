@@ -1,5 +1,6 @@
 import chroma from "chroma-js";
 import { generateTableHead, generateTableBody, generateTableFoot } from './generate-table'
+import { matchPaletteToExistingColors } from "./match-colors";
 
 export const roundTo100th = num => roundTo(num, 100);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
@@ -71,6 +72,8 @@ export const baseColors = [
     }
 ];
 
+export let palette;
+
 
 // Set up the scene
 
@@ -133,6 +136,9 @@ function getColorFromScale(bColor, lightnessStep) {
 }
 
 function generatePalette() {
+    // Reset palette before redefining
+    palette = [];
+
     generateScales();
     baseColors.forEach(function (bColor) {
         document.querySelectorAll(`[data-color="${bColor.name}"]`).forEach(function (swatch) {
@@ -155,8 +161,15 @@ function generatePalette() {
                 ${contrastBadge}
 
             `;
-        });  
+
+            palette.push({
+                color: colorHex,
+                name: bColor.name,
+                lightnessStep: lightnessStep
+            })
+        });
     });
+    matchPaletteToExistingColors();
 }
 
 function generateScales () {
