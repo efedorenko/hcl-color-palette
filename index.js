@@ -61,7 +61,7 @@ export const baseColors = [
     },
     {
         name: 'purple',
-        color: '#9f84db', // '#B47CD4' is a better match
+        color: '#9f82e3', // '#B47CD4' is a better match
         isLab: false,
         hueCorrection: 0
     },
