@@ -25,7 +25,7 @@ export const lightnessSteps = {
 export const baseColors = [
     {
         name: 'red',
-        color: '#C21527',
+        color: '#e94c49',
         isLab: true,
         hueCorrection: 0
     },
@@ -33,13 +33,13 @@ export const baseColors = [
         name: 'orange',
         color: '#F1903C',
         isLab: true,
-        hueCorrection: 0
+        hueCorrection: -10
     },
     {
         name: 'yellow',
-        color: '#FFDE00',
+        color: '#f3e203',
         isLab: true,
-        hueCorrection: 0
+        hueCorrection: -15
     },
     {
         name: 'lime',
@@ -61,7 +61,7 @@ export const baseColors = [
     },
     {
         name: 'purple',
-        color: '#9f82e3', // '#B47CD4' is a better match
+        color: '#9584ee', // '#B47CD4' is a better match
         isLab: false,
         hueCorrection: 0
     },
