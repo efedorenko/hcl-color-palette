@@ -49,9 +49,9 @@ export const baseColors = [
     },
     {
         name: 'mint',
-        color: '#4FC47F',
+        color: '#64c273',
         isLab: false,
-        hueCorrection: 0
+        hueCorrection: 15
     },
     {
         name: 'blue',
