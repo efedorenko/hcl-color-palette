@@ -67,7 +67,7 @@ export const baseColors = [
     },
     {
         name: 'slate',
-        color: '#79808D',
+        color: '#768092',
         isLab: false,
         hueCorrection: 0
     },
