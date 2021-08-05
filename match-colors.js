@@ -4,7 +4,7 @@ import {palette, roundTo, roundTo10th} from "./index";
 
 let stats = {};
 const indicator = {
-    perfect: '✅ 🎉',
+    perfect: '🎉',
     great: '✅',
     good: '👌',
     ok: 'ok',
@@ -43,7 +43,7 @@ function listExistingColors() {
         });
 
         let distanceIndicator;
-        if (minDistance === 0) {
+        if (minDistance < 0.05) { // not 0 because otherwise valid colors converted to hsla aren't counted
             distanceIndicator = indicator.perfect;
             stats.perfect++;
         } else if (minDistance < 1) {
