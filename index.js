@@ -74,6 +74,12 @@ export const baseColors = [
         hueCorrection: 0
     },
     {
+        name: 'beige',
+        color: '#EAE8DE',
+        isLab: false,
+        hueCorrection: 0
+    },
+    {
         name: 'grey',
         color: '#808080',
         isLab: false,
