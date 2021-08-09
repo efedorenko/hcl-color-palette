@@ -17,7 +17,7 @@ input[type="text"] {
 }
 
 .palette {
-    margin: 0 0 1em #{-1 * ($cell-width + 20px)};
+    margin: 0 0 1em;
     border-collapse: collapse;
     // border: 1px solid #EEE;
     font-size: 10px;
