@@ -9,7 +9,6 @@ export const roundToWhole = num => roundTo(num, 1);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 
 let bgColor = '#FFFFFF';
-let correctLightness = true;
 
 export const lightnessSteps = {
     50: 98,
@@ -124,10 +123,6 @@ document.addEventListener('change', event => {
     if (target.classList.contains('js-change-bg-color')) {
         changeBgAndContrast(target)
     }
-    if (target.classList.contains('js-correct-lightness')) {
-        correctLightness = target.checked;
-        generatePalette();
-    }
 })
 
 
@@ -197,7 +192,7 @@ function generatePalette() {
 function generateScales () {
     // Add scales to base colors
     baseColors.forEach(bColor => {
-        bColor.scale = chroma.scale(['black', bColor.color, 'white']).mode(bColor.isLab ? 'lab' : 'rgb').correctLightness(correctLightness);
+        bColor.scale = chroma.scale(['black', bColor.color, 'white']).mode(bColor.isLab ? 'lab' : 'rgb').correctLightness();
     })
 }
 
