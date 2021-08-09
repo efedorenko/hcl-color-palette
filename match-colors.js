@@ -1,5 +1,5 @@
 import chroma from "chroma-js";
-import * as pmColorsUsage from './pm-colors-emails-01e4a6fc.json'
+import * as pmColorsUsage from './pm-colors-app-eeae6fbd.json'
 import {palette, roundTo, roundTo10th} from "./index";
 
 let stats = {};
