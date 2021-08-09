@@ -62,12 +62,6 @@ export const baseColors = [
         hueCorrection: 0
     },
     {
-        name: 'purple',
-        color: '#9584ee', // '#B47CD4' is a better match
-        isLab: false,
-        hueCorrection: 0
-    },
-    {
         name: 'slate',
         color: '#768092',
         isLab: false,
