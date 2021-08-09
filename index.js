@@ -1,9 +1,11 @@
 import chroma from "chroma-js";
 import { generateTableHead, generateTableBody, generateTableFoot } from './generate-table'
 import { matchPaletteToExistingColors } from "./match-colors";
+import { APCAcontrast } from './APCAonly.98e_d12e';
 
 export const roundTo100th = num => roundTo(num, 100);
 export const roundTo10th = num => roundTo(num, 10);
+export const roundToWhole = num => roundTo(num, 1);
 const roundTo = (num, multiplier) => Math.round(num * multiplier) / multiplier;
 
 let bgColor = '#FFFFFF';
@@ -167,8 +169,9 @@ function generatePalette() {
             let lightness = roundTo100th(color.lch()[0]);
             let chrome = roundTo100th(color.lch()[1]);
             let hue = roundTo100th(color.lch()[2]);
-            let contrast = roundTo100th(chroma.contrast(colorHex, bgColor));
+            let contrast = roundTo10th(chroma.contrast(colorHex, bgColor));
             let contrastBadge = contrast >= 4.5 ? `✓ ${contrast}` : `<s>${contrast}</s>`;
+            let wcag3contrast = roundToWhole(APCAcontrast(bgColor.replace('#', '0x'), colorHex.replace('#', '0x')));
         
             swatch.style.backgroundColor = colorHex;
             swatch.innerHTML = `
@@ -176,7 +179,8 @@ function generatePalette() {
                 L: ${lightness}<br>
                 C: ${chrome}<br>
                 H: ${hue}<br>
-                ${contrastBadge}
+                <span title="WCAG 2.1 contrast ratio">${contrastBadge}</span> / <span title="WCAG 3 contrast ratio">${wcag3contrast}</span>
+                
 
             `;
 
